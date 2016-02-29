@@ -37,7 +37,6 @@ private slots:
 
 private:
     Ui::MidiQTool *ui;
-    MidiFile midi;
     QString midiDir;
     QString outDir;
     AdjustMid *midModifier;

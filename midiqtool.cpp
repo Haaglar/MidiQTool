@@ -27,10 +27,9 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
     string sirLoc = midiDir.toStdString();
     midModifier->SetMidi(sirLoc);
     //I hate this style option
-    if(!midi.status()){
+    if(!midModifier->mid.status()){
         ui->statusBar->showMessage("Failed to read midi file.");
     }else{
-        midi.linkNotePairs(); //So we can easily modify note onoff combos
         ui->lineEditFile->setText(midiDir);
         outDir= midiDir.left(midiDir.lastIndexOf(".")) + " (modified).mid";
         ui->lineEditSaveLoc->setText(outDir);
@@ -47,7 +46,7 @@ void MidiQTool::on_pushButtonSaveLocation_clicked()
 void MidiQTool::on_pushButtonSave_clicked()
 {
     string outLoc = outDir.toStdString();
-    midi.write(outLoc);
+    midModifier->mid.write(outLoc);
 }
 
 //-----End file options
@@ -73,7 +72,7 @@ void MidiQTool::on_pushButtonTNUdjust_clicked()
 //----------Note shifiting
 void MidiQTool::on_pushButtonOcUp_clicked()
 {
-    if(midModifier->AdjustNotePitch(16))
+    if(midModifier->AdjustNotePitch(12))
         ui->statusBar->showMessage("Out of range.");
     else
         ui->statusBar->showMessage("Octave shifted up.");
@@ -81,7 +80,7 @@ void MidiQTool::on_pushButtonOcUp_clicked()
 
 void MidiQTool::on_pushButtonOctDown_clicked()
 {
-    if(midModifier->AdjustNotePitch(-16))
+    if(midModifier->AdjustNotePitch(-12))
         ui->statusBar->showMessage("Out of range.");
     else
         ui->statusBar->showMessage("Octave shifted down.");

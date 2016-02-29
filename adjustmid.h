@@ -12,9 +12,9 @@ public:
     int AdjustTempoAndNotes(float adjustment);
     int AdjustNotePitch(int amount);
     int findHighLowPitch();
-    MidiFile mid;
     int highPoint;
     int lowPoint;
+    MidiFile mid;
 };
 
 
