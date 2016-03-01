@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "midifile/MidiFile.h"
 #include "adjustmid.h"
+#include <QDoubleValidator>
+#include <qfiledialog.h>
 namespace Ui {
 class MidiQTool;
 }
@@ -35,14 +37,18 @@ private slots:
 
     void on_pushButtonDownOne_clicked();
 
+    void on_radioButtonMulti_toggled(bool checked);
+
 private:
 
     void EnableGUI();
-
+    void SetupValidators();
     Ui::MidiQTool *ui;
     QString midiDir;
     QString outDir;
     AdjustMid *midModifier;
+    QDoubleValidator *validatorMultiplier;
+    QDoubleValidator *validatorTempo;
 };
 
 #endif // MIDIQTOOL_H

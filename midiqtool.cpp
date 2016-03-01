@@ -1,14 +1,12 @@
 #include "midiqtool.h"
 #include "ui_midiqtool.h"
-#include "adjustmid.h"
 #include "constants.h"
-#include <qfiledialog.h>
 MidiQTool::MidiQTool(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MidiQTool)
 {
     ui->setupUi(this);
-    ui->lineEditNTMValue->setValidator( new QDoubleValidator(0, 100, 2, this));
+    SetupValidators();
     midModifier = new AdjustMid();
 }
 
@@ -16,6 +14,8 @@ MidiQTool::~MidiQTool()
 {
     delete ui;
     delete midModifier;
+    delete validatorMultiplier;
+    delete validatorTempo;
 }
 
 //Open file
@@ -49,6 +49,7 @@ void MidiQTool::on_pushButtonSave_clicked()
 {
     string outLoc = outDir.toStdString();
     midModifier->mid.write(outLoc);
+    ui->statusBar->showMessage("File saved");
 }
 
 //-----End file options
@@ -63,11 +64,18 @@ void MidiQTool::on_pushButtonTNUdjust_clicked()
 {
 
     QString value = ui->lineEditNTMValue->text();
-    float adjustment = value.toFloat();
-    if(adjustment !=0)
-        midModifier->AdjustTempoAndNotes(adjustment);
+    float adjustment = 0;
+    if(ui->radioButtonTempo->isChecked())
+        adjustment = value.toFloat()/midModifier->firstTempo;
     else
+        adjustment = value.toFloat();
+    if(adjustment !=0){
+        midModifier->AdjustTempoAndNotes(adjustment);
+        ui->statusBar->showMessage("Adjusted notes");
+    }
+    else{
         ui->statusBar->showMessage("Use a non 0 value");
+    }
 }
 
 
@@ -105,9 +113,32 @@ void MidiQTool::on_pushButtonDownOne_clicked()
 
 }
 //-------End note Shifting
-
+/*!
+ * \brief MidiQTool::EnableGUI
+ */
 void MidiQTool::EnableGUI()
 {
     for(QWidget *items: ui->centralWidget->findChildren<QWidget*>())
         items->setEnabled(true);
 }
+
+void MidiQTool::on_radioButtonMulti_toggled(bool checked)
+{
+    if(checked)
+        ui->lineEditNTMValue->setValidator(validatorMultiplier);
+    else
+        ui->lineEditNTMValue->setValidator(validatorTempo);
+    ui->lineEditNTMValue->setText("");
+}
+/*!
+ * \brief MidiQTool::SetupValidators
+ */
+void MidiQTool::SetupValidators()
+{
+    validatorMultiplier =  new QDoubleValidator(0, 100, 2, this);
+    validatorTempo = new QDoubleValidator(0, 512.0, 2, this); //No reason max
+    validatorMultiplier->setNotation(QDoubleValidator::StandardNotation);
+    validatorTempo->setNotation(QDoubleValidator::StandardNotation);
+    ui->lineEditNTMValue->setValidator(validatorMultiplier);
+}
+

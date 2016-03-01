@@ -10,12 +10,12 @@ public:
     ~AdjustMid();
     void SetMidi(string path);
     int TrimStart ();
-    int AdjustTempoAndNotes(float adjustment);
+    int AdjustTempoAndNotes(double adjustment);
     int AdjustNotePitch(int amount);
     int FindHighLowPoints();
     int FindFirstTempo();
 
-    int firstTempo;
+    double firstTempo;
     int highPoint;
     int lowPoint;
 

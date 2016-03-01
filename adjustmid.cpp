@@ -51,7 +51,7 @@ int AdjustMid::TrimStart()
     return(1);
 }
 
-int AdjustMid::AdjustTempoAndNotes(float adjustment)
+int AdjustMid::AdjustTempoAndNotes(double adjustment)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -62,6 +62,7 @@ int AdjustMid::AdjustTempoAndNotes(float adjustment)
                 mid[track][eventNo].setTempo(mid[track][eventNo].getTempoBPM() * adjustment);
         }
     }
+    firstTempo *= adjustment;
     return 0;
 }
 int AdjustMid::AdjustNotePitch(int amount)

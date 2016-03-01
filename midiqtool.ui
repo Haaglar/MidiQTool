@@ -119,40 +119,7 @@
      <string>Save Changes</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonTNUdjust">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>75</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Note/Tempo
- Multiply</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditNTMValue">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>120</y>
-      <width>31</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="inputMethodHints">
-     <set>Qt::ImhDigitsOnly</set>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="groupBoxPitch">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -229,6 +196,100 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>181</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Note /  Tempo Adjust</string>
+    </property>
+    <widget class="QPushButton" name="pushButtonTNUdjust">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>75</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>GO</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditNTMValue">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>20</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButtonMulti">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>40</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>By Multiplier</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroupMultiplier</string>
+     </attribute>
+    </widget>
+    <widget class="QRadioButton" name="radioButtonTempo">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>60</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>By Tempo</string>
+     </property>
+     <attribute name="buttonGroup">
+      <string notr="true">buttonGroupMultiplier</string>
+     </attribute>
+    </widget>
+   </widget>
+   <zorder>groupBox</zorder>
+   <zorder>pushButtonOpenMidi</zorder>
+   <zorder>lineEditFile</zorder>
+   <zorder>pushButtonSaveLocation</zorder>
+   <zorder>lineEditSaveLoc</zorder>
+   <zorder>pushButtonTrimRest</zorder>
+   <zorder>pushButtonSave</zorder>
+   <zorder>groupBoxPitch</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -257,4 +318,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroupMultiplier"/>
+ </buttongroups>
 </ui>
