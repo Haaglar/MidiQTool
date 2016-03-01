@@ -108,6 +108,6 @@ void MidiQTool::on_pushButtonDownOne_clicked()
 
 void MidiQTool::EnableGUI()
 {
-    foreach (QWidget *items, ui->centralWidget->findChildren<QWidget*>())
+    for(QWidget *items: ui->centralWidget->findChildren<QWidget*>())
         items->setEnabled(true);
 }

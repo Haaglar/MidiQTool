@@ -1,15 +1,19 @@
 #include "adjustmid.h"
 #include "constants.h"
 #include <iostream>
-AdjustMid::AdjustMid()
+AdjustMid::AdjustMid(void)
 {
     highPoint = Constants::MIN_MIDI_PITCH;
     lowPoint = Constants::MAX_MIDI_PITCH;
 }
+AdjustMid::~AdjustMid(void)
+{
+}
 void AdjustMid::SetMidi(string path)
 {
     mid.read(path);
-    AdjustMid::findHighLowPitch();
+    AdjustMid::FindHighLowPoints();
+    AdjustMid::FindFirstTempo();
 }
 
 int AdjustMid::TrimStart()
@@ -74,9 +78,10 @@ int AdjustMid::AdjustNotePitch(int amount)
                 mid[track][eventNo][1]+= amount;
         }
     }
+    highPoint += amount;
     return 0;
 }
-int AdjustMid::findHighLowPitch()
+int AdjustMid::FindHighLowPoints()
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -87,6 +92,19 @@ int AdjustMid::findHighLowPitch()
                 lowPoint = min(mid[track][eventNo].getKeyNumber(),lowPoint);
                 highPoint = max(mid[track][eventNo].getKeyNumber(),highPoint);
             }
+        }
+    }
+    return 0;
+}
+
+int AdjustMid::FindFirstTempo()
+{
+    for (int eventNo = 0; eventNo < mid[0].size(); eventNo++)
+    {
+        if(mid[0][eventNo].isTempo())
+        {
+            firstTempo = mid[0][eventNo].getTempoBPM();
+            return firstTempo;
         }
     }
     return 0;
