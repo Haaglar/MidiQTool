@@ -7,7 +7,7 @@ class AdjustMid
 {
 public:
     AdjustMid();
-    SetMidi(string path);
+    void SetMidi(string path);
     int TrimStart ();
     int AdjustTempoAndNotes(float adjustment);
     int AdjustNotePitch(int amount);

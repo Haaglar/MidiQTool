@@ -30,6 +30,7 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
     if(!midModifier->mid.status()){
         ui->statusBar->showMessage("Failed to read midi file.");
     }else{
+        EnableGUI();
         ui->lineEditFile->setText(midiDir);
         outDir= midiDir.left(midiDir.lastIndexOf(".")) + " (modified).mid";
         ui->lineEditSaveLoc->setText(outDir);
@@ -40,7 +41,8 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
 void MidiQTool::on_pushButtonSaveLocation_clicked()
 {
     outDir = QFileDialog::getSaveFileName(this,tr("Save Midi"),"","Midi file (*.mid *.midi)");
-    ui->lineEditSaveLoc->setText(outDir);
+    if(outDir != NULL)
+        ui->lineEditSaveLoc->setText(outDir);
 }
 //Save file to location
 void MidiQTool::on_pushButtonSave_clicked()
@@ -103,3 +105,9 @@ void MidiQTool::on_pushButtonDownOne_clicked()
 
 }
 //-------End note Shifting
+
+void MidiQTool::EnableGUI()
+{
+    foreach (QWidget *items, ui->centralWidget->findChildren<QWidget*>())
+        items->setEnabled(true);
+}

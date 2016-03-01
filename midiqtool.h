@@ -36,6 +36,9 @@ private slots:
     void on_pushButtonDownOne_clicked();
 
 private:
+
+    void EnableGUI();
+
     Ui::MidiQTool *ui;
     QString midiDir;
     QString outDir;

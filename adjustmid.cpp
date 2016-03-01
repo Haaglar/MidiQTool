@@ -6,7 +6,7 @@ AdjustMid::AdjustMid()
     highPoint = Constants::MIN_MIDI_PITCH;
     lowPoint = Constants::MAX_MIDI_PITCH;
 }
-AdjustMid::SetMidi(string path)
+void AdjustMid::SetMidi(string path)
 {
     mid.read(path);
     AdjustMid::findHighLowPitch();
