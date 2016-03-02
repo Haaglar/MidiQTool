@@ -970,9 +970,9 @@ void MidiFile::splitTracks(void) {
 
 void MidiFile::splitTracksByChannel(void) {
    joinTracks();
-   if (getTrackState() == TRACK_STATE_SPLIT) {
+   /*if (getTrackState() == TRACK_STATE_SPLIT) {
       return;
-   }
+   }*/
 
    int oldTimeState = getTickState();
    if (oldTimeState == TIME_STATE_DELTA) {

@@ -1,6 +1,14 @@
 #include "midiqtool.h"
 #include "ui_midiqtool.h"
 #include "constants.h"
+#include "iostream"
+
+/* Note things that have been edited  on Midifile li b
+ * MidiFile.cpp
+ * - int MidiFile::read(const string& filename)
+ *      -set rwstatus as 0 instead of 1 at start
+ * - line 973 -> 975 commented out for single track split support
+ */
 MidiQTool::MidiQTool(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MidiQTool)
@@ -26,6 +34,7 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
         return;
     string sirLoc = midiDir.toStdString();
     midModifier->SetMidi(sirLoc);
+
     //I hate this style option
     if(!midModifier->mid.status()){
         ui->statusBar->showMessage("Failed to read midi file.");
@@ -120,6 +129,8 @@ void MidiQTool::EnableGUI()
 {
     for(QWidget *items: ui->centralWidget->findChildren<QWidget*>())
         items->setEnabled(true);
+    if(midModifier->mid.getNumTracks() != 1)//If not type 0
+        ui->pushButtonT0Split->setEnabled(false);
 }
 
 void MidiQTool::on_radioButtonMulti_toggled(bool checked)
@@ -142,3 +153,11 @@ void MidiQTool::SetupValidators()
     ui->lineEditNTMValue->setValidator(validatorMultiplier);
 }
 
+
+void MidiQTool::on_pushButtonT0Split_clicked()
+{
+    midModifier->mid.splitTracksByChannel();
+    cout << midModifier->mid.getNumTracks() << endl;
+    ui->pushButtonT0Split->setEnabled(false);
+    ui->statusBar->showMessage("Midi channels split into tracks.");
+}

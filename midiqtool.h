@@ -39,6 +39,8 @@ private slots:
 
     void on_radioButtonMulti_toggled(bool checked);
 
+    void on_pushButtonT0Split_clicked();
+
 private:
 
     void EnableGUI();
