@@ -180,7 +180,8 @@ class MidiFile {
 
       MidiFile& operator=(MidiFile other);
 
-
+      //Additional
+      void      splitTracksByChannelT0      (void);
 
       // static functions:
       static uchar    readByte                (istream& input);

@@ -34,7 +34,6 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
         return;
     string sirLoc = midiDir.toStdString();
     midModifier->SetMidi(sirLoc);
-
     //I hate this style option
     if(!midModifier->mid.status()){
         ui->statusBar->showMessage("Failed to read midi file.");
@@ -67,6 +66,7 @@ void MidiQTool::on_pushButtonSave_clicked()
 void MidiQTool::on_pushButtonTrimRest_clicked()
 {
     midModifier->TrimStart();
+    ui->statusBar->showMessage("Start trimed");
 }
 
 void MidiQTool::on_pushButtonTNUdjust_clicked()
@@ -156,8 +156,17 @@ void MidiQTool::SetupValidators()
 
 void MidiQTool::on_pushButtonT0Split_clicked()
 {
-    midModifier->mid.splitTracksByChannel();
+    midModifier->mid.splitTracksByChannelT0();
     cout << midModifier->mid.getNumTracks() << endl;
     ui->pushButtonT0Split->setEnabled(false);
     ui->statusBar->showMessage("Midi channels split into tracks.");
+}
+
+void MidiQTool::on_pushButtonCut_clicked()
+{
+    QString cutStart = ui->lineEditCutStart->text();
+    int cutSInt = cutStart.toInt();
+    midModifier->mid.linkNotePairs();
+    midModifier->CutMidi(cutSInt,0);
+    ui->statusBar->showMessage("Midi has been cut");
 }

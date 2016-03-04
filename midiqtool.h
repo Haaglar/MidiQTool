@@ -41,6 +41,8 @@ private slots:
 
     void on_pushButtonT0Split_clicked();
 
+    void on_pushButtonCut_clicked();
+
 private:
 
     void EnableGUI();

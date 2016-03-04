@@ -50,7 +50,9 @@ class MidiEventList {
 
       MidiEventList& operator=(MidiEventList other);
 
-   private:
+      //Additional
+      void        remove            (int position);
+  protected:
       vector<MidiEvent*>     list;
 
 };

@@ -306,4 +306,11 @@ MidiEventList& MidiEventList::operator=(MidiEventList other) {
    return *this;
 }
 
-
+/*-----------------------------*/
+//////
+//
+//
+void MidiEventList::remove(int position){
+    list[position]->unlinkEvent();  //Dont want dangling
+    list.erase(list.begin()+position);
+}

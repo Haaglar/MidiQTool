@@ -6,6 +6,7 @@
 class AdjustMid
 {
 public:
+    //Methods
     AdjustMid();
     ~AdjustMid();
     void SetMidi(string path);
@@ -14,7 +15,8 @@ public:
     int AdjustNotePitch(int amount);
     int FindHighLowPoints();
     int FindFirstTempo();
-
+    void CutMidi(int startTick, int endTick);
+    //Varibles
     double firstTempo;
     int highPoint;
     int lowPoint;

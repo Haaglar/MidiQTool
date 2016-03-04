@@ -110,3 +110,21 @@ int AdjustMid::FindFirstTempo()
     }
     return 0;
 }
+
+void AdjustMid::CutMidi(int startTick, int endTick)
+{
+    for (int track = 0; track < mid.getTrackCount(); track++)
+    {
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
+        {
+            if(mid[track][eventNo].tick >= startTick)
+                break;
+            if (mid[track][eventNo].isNote())
+            {
+                mid[track].remove(eventNo);
+                eventNo--;
+            }
+        }
+    }
+    AdjustMid::TrimStart();
+}
