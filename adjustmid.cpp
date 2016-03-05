@@ -18,7 +18,7 @@ void AdjustMid::SetMidi(string path)
 
 int AdjustMid::TrimStart()
 {
-    int iTicks = 999999;
+    int iTicks = 999999; //random number
     //Find
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -119,12 +119,14 @@ void AdjustMid::CutMidi(int startTick, int endTick)
         {
             if(mid[track][eventNo].tick >= startTick)
                 break;
-            if (mid[track][eventNo].isNote())
+            if (mid[track][eventNo].isNote() || mid[track][eventNo].isPitchbend())
             {
                 mid[track].remove(eventNo);
-                eventNo--;
+                eventNo--;//Go back since we dont want to skip
             }
         }
     }
     AdjustMid::TrimStart();
+    //Since the midihas changedwe need to check again
+    AdjustMid::FindHighLowPoints();
 }
