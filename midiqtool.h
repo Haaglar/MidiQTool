@@ -45,6 +45,8 @@ private slots:
 
     void on_pushButtonVolumeChan_clicked();
 
+    void on_pushButton_clicked();
+
 private:
 
     void EnableGUI();
@@ -55,6 +57,7 @@ private:
     AdjustMid *midModifier;
     QDoubleValidator *validatorMultiplier;
     QDoubleValidator *validatorTempo;
+    QIntValidator *validatorIntHalfByte;
 };
 
 #endif // MIDIQTOOL_H

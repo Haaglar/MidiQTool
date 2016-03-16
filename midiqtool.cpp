@@ -8,6 +8,7 @@
  * - int MidiFile::read(const string& filename)
  *      -set rwstatus as 0 instead of 1 at start
  * - line 973 -> 975 commented out for single track split support
+ * Add a new function called isVolume() (based off isController())
  */
 MidiQTool::MidiQTool(QWidget *parent) :
     QMainWindow(parent),
@@ -78,11 +79,11 @@ void MidiQTool::on_pushButtonTNUdjust_clicked()
         adjustment = value.toFloat()/midModifier->firstTempo;
     else
         adjustment = value.toFloat();
+
     if(adjustment !=0){
         midModifier->AdjustTempoAndNotes(adjustment);
         ui->statusBar->showMessage("Adjusted notes");
-    }
-    else{
+    }else{
         ui->statusBar->showMessage("Use a non 0 value");
     }
 }
@@ -146,11 +147,19 @@ void MidiQTool::on_radioButtonMulti_toggled(bool checked)
  */
 void MidiQTool::SetupValidators()
 {
+    //Create
     validatorMultiplier =  new QDoubleValidator(0, 100, 2, this);
     validatorTempo = new QDoubleValidator(0, 512.0, 2, this); //No reason max
+    validatorIntHalfByte =  new QIntValidator(1, 127,this);
+    //set up format
     validatorMultiplier->setNotation(QDoubleValidator::StandardNotation);
     validatorTempo->setNotation(QDoubleValidator::StandardNotation);
+
+    //Setup
+    //Note / length
     ui->lineEditNTMValue->setValidator(validatorMultiplier);
+    // Volume options
+    ui->lineEditVolume->setValidator(validatorIntHalfByte);
 }
 
 
@@ -161,18 +170,25 @@ void MidiQTool::on_pushButtonT0Split_clicked()
     ui->pushButtonT0Split->setEnabled(false);
     ui->statusBar->showMessage("Midi channels split into tracks.");
 }
-
+//TODO: finish this
 void MidiQTool::on_pushButtonCut_clicked()
 {
     QString cutStart = ui->lineEditCutStart->text();
     int cutSInt = cutStart.toInt();
-    midModifier->mid.linkNotePairs();
     midModifier->CutMidi(cutSInt,0);
     ui->statusBar->showMessage("Midi has been cut");
 }
 
+//TODO: finish this
 void MidiQTool::on_pushButtonVolumeChan_clicked()
 {
-    midModifier->RemoveAdditionalVolume();
-    ui->statusBar->showMessage("Additional voluemes removed");
+    int value = ui->lineEditVolume->text().toInt();
+    midModifier->RemoveAdditionalVolume(value);
+    ui->statusBar->showMessage("Additional volumes removed");
+}
+
+void MidiQTool::on_pushButton_clicked()
+{
+    midModifier->SetNoteAttackVolume(60);
+    ui->statusBar->showMessage("NoteAttacks set");
 }
