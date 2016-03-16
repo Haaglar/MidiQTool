@@ -414,6 +414,18 @@ int MidiMessage::isPatchChange(void) const {
 }
 
 
+int MidiMessage::isVolume(void) const {
+    if (size() != 3) {
+       return 0;
+    } else if (((*this)[0] & 0xf0) != 0xB0) {
+       return 0;
+    }else if((*this)[1] != 7){
+        return 0;
+    }else {
+       return 1;
+    }
+}
+
 
 //////////////////////////////
 //

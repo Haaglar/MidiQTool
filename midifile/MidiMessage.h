@@ -63,6 +63,7 @@ class MidiMessage : public vector<uchar> {
       int            isPatchChange        (void) const;
       int            isPressure           (void) const;
       int            isPitchbend          (void) const;
+      int            isVolume             (void) const;
 
       int            getP1                (void) const;
       int            getP2                (void) const;

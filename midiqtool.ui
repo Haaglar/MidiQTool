@@ -353,6 +353,20 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButtonVolumeChan">
+    <property name="geometry">
+     <rect>
+      <x>354</x>
+      <y>220</y>
+      <width>91</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove Volume
+Changes</string>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>pushButtonOpenMidi</zorder>
    <zorder>lineEditFile</zorder>
@@ -363,6 +377,7 @@
    <zorder>groupBoxPitch</zorder>
    <zorder>pushButtonT0Split</zorder>
    <zorder>groupBox_2</zorder>
+   <zorder>pushButtonVolumeChan</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

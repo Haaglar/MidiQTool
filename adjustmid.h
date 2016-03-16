@@ -16,6 +16,7 @@ public:
     int FindHighLowPoints();
     int FindFirstTempo();
     void CutMidi(int startTick, int endTick);
+    void RemoveAdditionalVolume();
     //Varibles
     double firstTempo;
     int highPoint;

@@ -43,6 +43,8 @@ private slots:
 
     void on_pushButtonCut_clicked();
 
+    void on_pushButtonVolumeChan_clicked();
+
 private:
 
     void EnableGUI();

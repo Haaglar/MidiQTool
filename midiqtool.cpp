@@ -170,3 +170,9 @@ void MidiQTool::on_pushButtonCut_clicked()
     midModifier->CutMidi(cutSInt,0);
     ui->statusBar->showMessage("Midi has been cut");
 }
+
+void MidiQTool::on_pushButtonVolumeChan_clicked()
+{
+    midModifier->RemoveAdditionalVolume();
+    ui->statusBar->showMessage("Additional voluemes removed");
+}

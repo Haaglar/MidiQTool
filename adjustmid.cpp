@@ -130,3 +130,23 @@ void AdjustMid::CutMidi(int startTick, int endTick)
     //Since the midihas changedwe need to check again
     AdjustMid::FindHighLowPoints();
 }
+void AdjustMid::RemoveAdditionalVolume()
+{
+    for (int track = 0; track < mid.getTrackCount(); track++)
+    {
+        int volumeFound = 0;
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
+        {
+            if(mid[track][eventNo].isVolume())
+            {
+                if(volumeFound == 0 && mid[track][eventNo][2] !=0){ //Dont want to set to 0
+                    volumeFound++;
+                }else{
+                    mid[track].remove(eventNo);
+                    eventNo--;
+                }
+
+            }
+        }
+    }
+}
