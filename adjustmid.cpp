@@ -203,6 +203,9 @@ void AdjustMid::RemoveShortNotes(int length)
             }//End note test
         }//End current track
     }//End note find
-
+    for(int track = 0; track < mid.getTrackCount(); track++)
+    {
+        mid[track].removeList(toDelete[track]);
+    }
 
 }

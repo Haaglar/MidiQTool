@@ -356,9 +356,9 @@
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>280</x>
       <y>160</y>
-      <width>191</width>
+      <width>181</width>
       <height>111</height>
      </rect>
     </property>
@@ -427,10 +427,13 @@ Attacks</string>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushButtonShortNotes">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>80</y>
+      <y>180</y>
       <width>71</width>
       <height>51</height>
      </rect>

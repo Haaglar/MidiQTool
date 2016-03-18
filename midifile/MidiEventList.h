@@ -52,6 +52,7 @@ class MidiEventList {
 
       //Additional
       void        remove            (int position);
+      void        removeList        (vector<int> positions);
   protected:
       vector<MidiEvent*>     list;
 

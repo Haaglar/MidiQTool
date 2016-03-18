@@ -314,3 +314,12 @@ void MidiEventList::remove(int position){
     list[position]->unlinkEvent();  //Dont want dangling
     list.erase(list.begin()+position);
 }
+
+void MidiEventList::removeList(vector<int> positions)
+{
+    if(positions.size() > 0){
+        reverse(positions.begin(), positions.end());
+        for(int i: positions)
+            list.erase(std::next( list.begin(), i ) );
+        }
+}
