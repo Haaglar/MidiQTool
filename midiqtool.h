@@ -47,6 +47,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_pushButtonShortNotes_clicked();
+
 private:
 
     void EnableGUI();

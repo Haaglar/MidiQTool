@@ -18,6 +18,7 @@ public:
     void CutMidi(int startTick, int endTick);
     void RemoveAdditionalVolume(int volume);
     void SetNoteAttackVolume(int volume);
+    void RemoveShortNotes(int length);
     //Varibles
     double firstTempo;
     int highPoint;

@@ -426,6 +426,20 @@ Attacks</string>
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButtonShortNotes">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>80</y>
+      <width>71</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove
+Short Notes</string>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>pushButtonOpenMidi</zorder>
    <zorder>lineEditFile</zorder>
@@ -437,6 +451,7 @@ Attacks</string>
    <zorder>pushButtonT0Split</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
+   <zorder>pushButtonShortNotes</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

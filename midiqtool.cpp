@@ -160,6 +160,7 @@ void MidiQTool::SetupValidators()
     ui->lineEditNTMValue->setValidator(validatorMultiplier);
     // Volume options
     ui->lineEditVolume->setValidator(validatorIntHalfByte);
+    ui->lineEditNoteAttacks->setValidator(validatorIntHalfByte);
 }
 
 
@@ -183,12 +184,28 @@ void MidiQTool::on_pushButtonCut_clicked()
 void MidiQTool::on_pushButtonVolumeChan_clicked()
 {
     int value = ui->lineEditVolume->text().toInt();
-    midModifier->RemoveAdditionalVolume(value);
-    ui->statusBar->showMessage("Additional volumes removed");
+    if(value){
+        midModifier->RemoveAdditionalVolume(value);
+        ui->statusBar->showMessage("Additional volumes removed");
+    }else{
+        ui->statusBar->showMessage("Input a value between 1-127");
+    }
 }
 
 void MidiQTool::on_pushButton_clicked()
 {
-    midModifier->SetNoteAttackVolume(60);
-    ui->statusBar->showMessage("NoteAttacks set");
+    int value = ui->lineEditNoteAttacks->text().toInt();
+    if(value){
+        midModifier->SetNoteAttackVolume(value);
+        ui->statusBar->showMessage("NoteAttacks set");
+    }else{
+        ui->statusBar->showMessage("Input a value between 1-127");
+    }
+
+}
+
+void MidiQTool::on_pushButtonShortNotes_clicked()
+{
+   midModifier->RemoveShortNotes(5);
+   ui->statusBar->showMessage("Short notes removed");
 }

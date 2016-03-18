@@ -130,6 +130,10 @@ void AdjustMid::CutMidi(int startTick, int endTick)
     //Since the midihas changedwe need to check again
     AdjustMid::FindHighLowPoints();
 }
+/*!
+ * \brief AdjustMid::RemoveAdditionalVolume
+ * \param volume
+ */
 void AdjustMid::RemoveAdditionalVolume(int volume)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
@@ -152,7 +156,10 @@ void AdjustMid::RemoveAdditionalVolume(int volume)
         }
     }
 }
-
+/*!
+ * \brief AdjustMid::SetNoteAttackVolume
+ * \param volume
+ */
 void AdjustMid::SetNoteAttackVolume(int volume)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
@@ -161,8 +168,41 @@ void AdjustMid::SetNoteAttackVolume(int volume)
         {
             if(mid[track][eventNo].isNote())
             {
-                mid[track][eventNo][2] = volume;
+                mid[track][eventNo][2] = (volume & 0xff);
             }
         }
     }
+}
+
+void AdjustMid::RemoveShortNotes(int length)
+{
+    //first join
+    mid.linkNotePairs();
+    vector<vector<int>> toDelete( mid.getTrackCount());
+    //Find the notes to delete
+    for (int track = 0; track < mid.getTrackCount(); track++)
+    {
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
+        {
+            if(mid[track][eventNo].isNoteOn())
+            {
+                MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
+                int eventNoPairEnd = eventNo + 1;
+                while(eventNoPairEnd < mid[track].size())
+                {
+                    if(linked == &mid[track][eventNoPairEnd])
+                    {
+                        if((mid[track][eventNoPairEnd].tick - mid[track][eventNo].tick)< length){
+                            toDelete[track].push_back(eventNo);
+                            toDelete[track].push_back(eventNoPairEnd);
+                        }
+                        break;
+                    }
+                    eventNoPairEnd++;
+                }//End pair note find
+            }//End note test
+        }//End current track
+    }//End note find
+
+
 }
