@@ -113,7 +113,46 @@ int AdjustMid::FindFirstTempo()
 
 void AdjustMid::CutMidi(int startTick, int endTick)
 {
+    //first join
+    mid.linkNotePairs();
+    vector<vector<int>> toDelete( mid.getTrackCount());
+    //Find the notes to delete
     for (int track = 0; track < mid.getTrackCount(); track++)
+    {
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
+        {
+            if(mid[track][eventNo].tick >= startTick ) //Past poiont that we care
+                break;
+            if (mid[track][eventNo].isPitchbend()){
+                toDelete[track].push_back(eventNo);
+                continue;
+            }
+
+            if (mid[track][eventNo].isNote())
+            {
+                if(mid[track][eventNo].isNoteOff()){
+                    toDelete[track].push_back(eventNo);
+                    continue;
+                }
+
+                 MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
+                 if(linked->tick < startTick){          //Check the linked note is is before the cut time
+                     toDelete[track].push_back(eventNo);
+                 }else{
+                     mid[track][eventNo].tick = startTick; //Adjust it so its at the start of the midi
+                 }
+            }
+        }
+    }
+    for(int track = 0; track < mid.getTrackCount(); track++)
+    {
+        mid[track].removeList(toDelete[track]);
+    }
+    AdjustMid::TrimStart(); //Shift everything down
+    //Since the midihas changedwe need to check again
+    AdjustMid::FindHighLowPoints();
+
+    /*for (int track = 0; track < mid.getTrackCount(); track++)
     {
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
@@ -128,7 +167,7 @@ void AdjustMid::CutMidi(int startTick, int endTick)
     }
     AdjustMid::TrimStart();
     //Since the midihas changedwe need to check again
-    AdjustMid::FindHighLowPoints();
+    AdjustMid::FindHighLowPoints();*/
 }
 /*!
  * \brief AdjustMid::RemoveAdditionalVolume

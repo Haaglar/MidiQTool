@@ -45,7 +45,7 @@ private slots:
 
     void on_pushButtonVolumeChan_clicked();
 
-    void on_pushButton_clicked();
+    void on_pushButtonNoteAttacks_clicked();
 
     void on_pushButtonShortNotes_clicked();
 

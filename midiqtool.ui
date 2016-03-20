@@ -382,7 +382,7 @@
 Changes</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pushButtonNoteAttacks">
      <property name="enabled">
       <bool>false</bool>
      </property>

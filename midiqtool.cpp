@@ -192,7 +192,7 @@ void MidiQTool::on_pushButtonVolumeChan_clicked()
     }
 }
 
-void MidiQTool::on_pushButton_clicked()
+void MidiQTool::on_pushButtonNoteAttacks_clicked()
 {
     int value = ui->lineEditNoteAttacks->text().toInt();
     if(value){
