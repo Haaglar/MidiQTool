@@ -60,6 +60,7 @@ private:
     QDoubleValidator *validatorMultiplier;
     QDoubleValidator *validatorTempo;
     QIntValidator *validatorIntHalfByte;
+    QIntValidator *validatorInt;
 };
 
 #endif // MIDIQTOOL_H

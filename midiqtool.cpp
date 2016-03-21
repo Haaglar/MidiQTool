@@ -151,6 +151,7 @@ void MidiQTool::SetupValidators()
     validatorMultiplier =  new QDoubleValidator(0, 100, 2, this);
     validatorTempo = new QDoubleValidator(0, 512.0, 2, this); //No reason max
     validatorIntHalfByte =  new QIntValidator(1, 127,this);
+    validatorInt = new QIntValidator(0,INT_MAX,this);
     //set up format
     validatorMultiplier->setNotation(QDoubleValidator::StandardNotation);
     validatorTempo->setNotation(QDoubleValidator::StandardNotation);
@@ -161,6 +162,9 @@ void MidiQTool::SetupValidators()
     // Volume options
     ui->lineEditVolume->setValidator(validatorIntHalfByte);
     ui->lineEditNoteAttacks->setValidator(validatorIntHalfByte);
+    //Cut options
+    ui->lineEditCutStart->setValidator(validatorInt);
+    ui->lineEditCutFin->setValidator(validatorInt);
 }
 
 
@@ -171,16 +175,27 @@ void MidiQTool::on_pushButtonT0Split_clicked()
     ui->pushButtonT0Split->setEnabled(false);
     ui->statusBar->showMessage("Midi channels split into tracks.");
 }
-//TODO: finish this
+/*!
+ * \brief MidiQTool::on_pushButtonCut_clicked
+ */
 void MidiQTool::on_pushButtonCut_clicked()
 {
-    QString cutStart = ui->lineEditCutStart->text();
-    int cutSInt = cutStart.toInt();
-    midModifier->CutMidi(cutSInt,0);
-    ui->statusBar->showMessage("Midi has been cut");
+    QString cutSStart = ui->lineEditCutStart->text();
+    int cutStart = cutSStart.toInt();
+    QString cutSEnd = ui->lineEditCutFin->text();
+    int cutEnd = cutSEnd.toInt();
+    if(cutEnd > cutStart || (cutStart && cutEnd == 0)){
+        midModifier->CutMidi(cutStart,cutEnd);
+        ui->statusBar->showMessage("Midi has been cut");
+    }else{
+       ui->statusBar->showMessage("Please enter correct times");
+    }
+
 }
 
-//TODO: finish this
+/*!
+ * \brief MidiQTool::on_pushButtonVolumeChan_clicked
+ */
 void MidiQTool::on_pushButtonVolumeChan_clicked()
 {
     int value = ui->lineEditVolume->text().toInt();
