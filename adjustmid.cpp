@@ -24,8 +24,7 @@ int AdjustMid::TrimStart()
     {
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
-            if (mid[track][eventNo].isNoteOn()) //Find first note on for track
-            {
+            if (mid[track][eventNo].isNoteOn()){ //Find first note on for track
                 iTicks = min(mid[track][eventNo].tick, iTicks);
                 break;
             }
@@ -185,8 +184,7 @@ void AdjustMid::RemoveAdditionalVolume(int volume)
         int volumeFound = 0;
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
-            if(mid[track][eventNo].isVolume())
-            {
+            if(mid[track][eventNo].isVolume()){
                 if(volumeFound == 0 && mid[track][eventNo][2] !=0){ //Dont want to set to 0
                     volumeFound++;
                     if(volume != 0)
@@ -195,7 +193,6 @@ void AdjustMid::RemoveAdditionalVolume(int volume)
                     mid[track].remove(eventNo);
                     eventNo--;
                 }
-
             }
         }
     }
