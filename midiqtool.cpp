@@ -25,6 +25,8 @@ MidiQTool::~MidiQTool()
     delete midModifier;
     delete validatorMultiplier;
     delete validatorTempo;
+    delete validatorIntHalfByte;
+    delete validatorInt;
 }
 
 //Open file

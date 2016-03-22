@@ -88,8 +88,7 @@ int AdjustMid::FindHighLowPoints()
     {
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
-            if (mid[track][eventNo].isNote())
-            {
+            if (mid[track][eventNo].isNote()){
                 lowPoint = min(mid[track][eventNo].getKeyNumber(),lowPoint);
                 highPoint = max(mid[track][eventNo].getKeyNumber(),highPoint);
             }
@@ -102,8 +101,7 @@ int AdjustMid::FindFirstTempo()
 {
     for (int eventNo = 0; eventNo < mid[0].size(); eventNo++)
     {
-        if(mid[0][eventNo].isTempo())
-        {
+        if(mid[0][eventNo].isTempo()){
             firstTempo = mid[0][eventNo].getTempoBPM();
             return firstTempo;
         }
@@ -138,23 +136,18 @@ void AdjustMid::CutMidi(int startTick, int endTick)
                      mid[track][eventNo].tick = startTick; //Adjust it so its at the start of the midi
                     }
                 }
-            }
-            else if (endTick) //If specified an end tick
-            {
+            }else if (endTick){ //If specified an end tick
                 if(mid[track][eventNo].tick <= endTick){ //Middle Cases
-                    if (mid[track][eventNo].isNoteOn())
-                    {
+                    if (mid[track][eventNo].isNoteOn()){
                          MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
                          if(linked->tick > endTick)
-                         {
                             linked->tick = endTick;
-                         }
                     }
                 }else{
                      toDelete[track].push_back(eventNo);
                 }
             }//End specified endtick block
-        }//End event loop
+        }//End event loop-
     }//End track loop
     for(int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -218,9 +211,7 @@ void AdjustMid::SetNoteAttackVolume(int volume)
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
             if(mid[track][eventNo].isNote())
-            {
                 mid[track][eventNo][2] = (volume & 0xff);
-            }
         }
     }
 }
@@ -235,14 +226,12 @@ void AdjustMid::RemoveShortNotes(int length)
     {
         for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
         {
-            if(mid[track][eventNo].isNoteOn())
-            {
+            if(mid[track][eventNo].isNoteOn()){
                 MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
                 int eventNoPairEnd = eventNo + 1;
                 while(eventNoPairEnd < mid[track].size())
                 {
-                    if(linked == &mid[track][eventNoPairEnd])
-                    {
+                    if(linked == &mid[track][eventNoPairEnd]){
                         if((mid[track][eventNoPairEnd].tick - mid[track][eventNo].tick)< length){
                             toDelete[track].push_back(eventNo);
                             toDelete[track].push_back(eventNoPairEnd);
