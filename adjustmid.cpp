@@ -30,8 +30,7 @@ int AdjustMid::TrimStart()
             }
         }
     }
-    if (iTicks > 0 && iTicks != 999999)
-    {
+    if (iTicks > 0 && iTicks != 999999){
         //iterate over it all
         for (int track = 0; track < mid.getTrackCount(); track++)
         {
@@ -156,22 +155,6 @@ void AdjustMid::CutMidi(int startTick, int endTick)
     //Since the midihas changedwe need to check again
     AdjustMid::FindHighLowPoints();
 
-    /*for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
-            if(mid[track][eventNo].tick >= startTick)
-                break;
-            if (mid[track][eventNo].isNote() || mid[track][eventNo].isPitchbend())
-            {
-                mid[track].remove(eventNo);
-                eventNo--;//Go back since we dont want to skip
-            }
-        }
-    }
-    AdjustMid::TrimStart();
-    //Since the midihas changedwe need to check again
-    AdjustMid::FindHighLowPoints();*/
 }
 /*!
  * \brief AdjustMid::RemoveAdditionalVolume
