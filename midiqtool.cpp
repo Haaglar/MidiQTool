@@ -202,7 +202,8 @@ void MidiQTool::on_pushButtonCut_clicked()
         cutStart = cutSStart.toInt();
         cutEnd = cutSEnd.toInt();
     }else{
-       midModifier->secondsToTick(cutSStart.toDouble(),cutSEnd.toDouble(),cutStart,cutEnd);
+       cutStart = midModifier->mid.getAbsoluteTickTime(cutSStart.toDouble());
+       cutEnd = midModifier->mid.getAbsoluteTickTime(cutSEnd.toDouble());
     }
 
     if(cutEnd > cutStart || (cutStart && cutEnd == 0)){

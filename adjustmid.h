@@ -15,7 +15,6 @@ public:
     int adjustNotePitch(int amount);
     int findHighLowPoints();
     int findFirstTempo();
-    void secondsToTick(double startTime, double endTime, int & startTimeTicks, int & endTimeTicks);
     void cutMidi(int startTick, int endTick);
     void removeAdditionalVolume(int volume);
     void setNoteAttackVolume(int volume);
