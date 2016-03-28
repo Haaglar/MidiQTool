@@ -9,16 +9,17 @@ public:
     //Methods
     AdjustMid();
     ~AdjustMid();
-    void SetMidi(string path);
-    int TrimStart ();
-    int AdjustTempoAndNotes(double adjustment);
-    int AdjustNotePitch(int amount);
-    int FindHighLowPoints();
-    int FindFirstTempo();
-    void CutMidi(int startTick, int endTick);
-    void RemoveAdditionalVolume(int volume);
-    void SetNoteAttackVolume(int volume);
-    void RemoveShortNotes(int length);
+    void setMidi(string path);
+    int trimStart ();
+    int adjustTempoAndNotes(double adjustment);
+    int adjustNotePitch(int amount);
+    int findHighLowPoints();
+    int findFirstTempo();
+    int secondsToTick(double &startTime, double &endTime);
+    void cutMidi(int startTick, int endTick);
+    void removeAdditionalVolume(int volume);
+    void setNoteAttackVolume(int volume);
+    void removeShortNotes(int length);
     //Varibles
     double firstTempo;
     int highPoint;

@@ -9,14 +9,14 @@ AdjustMid::AdjustMid(void)
 AdjustMid::~AdjustMid(void)
 {
 }
-void AdjustMid::SetMidi(string path)
+void AdjustMid::setMidi(string path)
 {
     mid.read(path);
-    AdjustMid::FindHighLowPoints();
-    AdjustMid::FindFirstTempo();
+    AdjustMid::findHighLowPoints();
+    AdjustMid::findFirstTempo();
 }
 
-int AdjustMid::TrimStart()
+int AdjustMid::trimStart()
 {
     int iTicks = 999999; //random number
     //Find
@@ -49,7 +49,7 @@ int AdjustMid::TrimStart()
     return(1);
 }
 
-int AdjustMid::AdjustTempoAndNotes(double adjustment)
+int AdjustMid::adjustTempoAndNotes(double adjustment)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -63,7 +63,7 @@ int AdjustMid::AdjustTempoAndNotes(double adjustment)
     firstTempo *= adjustment;
     return 0;
 }
-int AdjustMid::AdjustNotePitch(int amount)
+int AdjustMid::adjustNotePitch(int amount)
 {
     if( amount > 0 && (highPoint + amount) > Constants::MAX_MIDI_PITCH)
         return 1;
@@ -80,7 +80,7 @@ int AdjustMid::AdjustNotePitch(int amount)
     highPoint += amount;
     return 0;
 }
-int AdjustMid::FindHighLowPoints()
+int AdjustMid::findHighLowPoints()
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -95,7 +95,7 @@ int AdjustMid::FindHighLowPoints()
     return 0;
 }
 
-int AdjustMid::FindFirstTempo()
+int AdjustMid::findFirstTempo()
 {
     for (int eventNo = 0; eventNo < mid[0].size(); eventNo++)
     {
@@ -107,7 +107,7 @@ int AdjustMid::FindFirstTempo()
     return 0;
 }
 
-void AdjustMid::CutMidi(int startTick, int endTick)
+void AdjustMid::cutMidi(int startTick, int endTick)
 {
     //first join
     mid.linkNotePairs();
@@ -151,16 +151,16 @@ void AdjustMid::CutMidi(int startTick, int endTick)
     {
         mid[track].removeList(toDelete[track]);
     }
-    AdjustMid::TrimStart(); //Shift everything down
+    AdjustMid::trimStart(); //Shift everything down
     //Since the midihas changedwe need to check again
-    AdjustMid::FindHighLowPoints();
+    AdjustMid::findHighLowPoints();
 
 }
 /*!
  * \brief AdjustMid::RemoveAdditionalVolume
  * \param volume
  */
-void AdjustMid::RemoveAdditionalVolume(int volume)
+void AdjustMid::removeAdditionalVolume(int volume)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -184,7 +184,7 @@ void AdjustMid::RemoveAdditionalVolume(int volume)
  * \brief AdjustMid::SetNoteAttackVolume
  * \param volume
  */
-void AdjustMid::SetNoteAttackVolume(int volume)
+void AdjustMid::setNoteAttackVolume(int volume)
 {
     for (int track = 0; track < mid.getTrackCount(); track++)
     {
@@ -196,7 +196,7 @@ void AdjustMid::SetNoteAttackVolume(int volume)
     }
 }
 
-void AdjustMid::RemoveShortNotes(int length)
+void AdjustMid::removeShortNotes(int length)
 {
     //first join
     mid.linkNotePairs();
@@ -227,5 +227,5 @@ void AdjustMid::RemoveShortNotes(int length)
     {
         mid[track].removeList(toDelete[track]);
     }
-
 }
+int AdjustMid::secondsToTick(double &startTime, double &endTime){return 0;}

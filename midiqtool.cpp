@@ -38,7 +38,7 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
     if(midiDir == NULL)
         return;
     string sirLoc = midiDir.toStdString();
-    midModifier->SetMidi(sirLoc);
+    midModifier->setMidi(sirLoc);
     //I hate this style option
     if(!midModifier->mid.status()){
         ui->statusBar->showMessage("Failed to read midi file.");
@@ -70,7 +70,7 @@ void MidiQTool::on_pushButtonSave_clicked()
 
 void MidiQTool::on_pushButtonTrimRest_clicked()
 {
-    midModifier->TrimStart();
+    midModifier->trimStart();
     ui->statusBar->showMessage("Start trimed");
 }
 
@@ -88,7 +88,7 @@ void MidiQTool::on_pushButtonTNUdjust_clicked()
         adjustment = value.toFloat();
 
     if(adjustment !=0){
-        midModifier->AdjustTempoAndNotes(adjustment);
+        midModifier->adjustTempoAndNotes(adjustment);
         ui->statusBar->showMessage("Adjusted notes");
     }else{
         ui->statusBar->showMessage("Use a non 0 value");
@@ -109,7 +109,7 @@ void MidiQTool::on_radioButtonMulti_toggled(bool checked)
 //----------Note pitch shifiting
 void MidiQTool::on_pushButtonOcUp_clicked()
 {
-    if(midModifier->AdjustNotePitch(12))
+    if(midModifier->adjustNotePitch(12))
         ui->statusBar->showMessage("Out of range.");
     else
         ui->statusBar->showMessage("Octave shifted up.");
@@ -117,7 +117,7 @@ void MidiQTool::on_pushButtonOcUp_clicked()
 
 void MidiQTool::on_pushButtonOctDown_clicked()
 {
-    if(midModifier->AdjustNotePitch(-12))
+    if(midModifier->adjustNotePitch(-12))
         ui->statusBar->showMessage("Out of range.");
     else
         ui->statusBar->showMessage("Octave shifted down.");
@@ -125,7 +125,7 @@ void MidiQTool::on_pushButtonOctDown_clicked()
 
 void MidiQTool::on_pushButtonUpOne_clicked()
 {
-    if(midModifier->AdjustNotePitch(1))
+    if(midModifier->adjustNotePitch(1))
         ui->statusBar->showMessage("Out of range.");
     else
         ui->statusBar->showMessage("Notes shifted up.");
@@ -133,7 +133,7 @@ void MidiQTool::on_pushButtonUpOne_clicked()
 
 void MidiQTool::on_pushButtonDownOne_clicked()
 {
-     if(midModifier->AdjustNotePitch(-1))
+     if(midModifier->adjustNotePitch(-1))
          ui->statusBar->showMessage("Out of range.");
      else
          ui->statusBar->showMessage("Notes shifted down.");
@@ -206,7 +206,7 @@ void MidiQTool::on_pushButtonCut_clicked()
     }
 
     if(cutEnd > cutStart || (cutStart && cutEnd == 0)){
-        midModifier->CutMidi(cutStart,cutEnd);
+        midModifier->cutMidi(cutStart,cutEnd);
         ui->statusBar->showMessage("Midi has been cut");
     }else{
        ui->statusBar->showMessage("Please enter correct times");
@@ -235,7 +235,7 @@ void MidiQTool::on_pushButtonVolumeChan_clicked()
 {
     int value = ui->lineEditVolume->text().toInt();
     if(value){
-        midModifier->RemoveAdditionalVolume(value);
+        midModifier->removeAdditionalVolume(value);
         ui->statusBar->showMessage("Additional volumes removed");
     }else{
         ui->statusBar->showMessage("Input a value between 1-127");
@@ -246,7 +246,7 @@ void MidiQTool::on_pushButtonNoteAttacks_clicked()
 {
     int value = ui->lineEditNoteAttacks->text().toInt();
     if(value){
-        midModifier->SetNoteAttackVolume(value);
+        midModifier->setNoteAttackVolume(value);
         ui->statusBar->showMessage("NoteAttacks set");
     }else{
         ui->statusBar->showMessage("Input a value between 1-127");
@@ -256,7 +256,7 @@ void MidiQTool::on_pushButtonNoteAttacks_clicked()
 
 void MidiQTool::on_pushButtonShortNotes_clicked()
 {
-   midModifier->RemoveShortNotes(5);
+   midModifier->removeShortNotes(5);
    ui->statusBar->showMessage("Short notes removed");
 }
 
