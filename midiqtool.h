@@ -49,6 +49,8 @@ private slots:
 
     void on_pushButtonShortNotes_clicked();
 
+    void on_radioButtonCutTicks_toggled(bool checked);
+
 private:
 
     void EnableGUI();
@@ -61,6 +63,7 @@ private:
     QDoubleValidator *validatorTempo;
     QIntValidator *validatorIntHalfByte;
     QIntValidator *validatorInt;
+    QDoubleValidator * validatorTime;
 };
 
 #endif // MIDIQTOOL_H

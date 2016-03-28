@@ -9,6 +9,7 @@
  *      -set rwstatus as 0 instead of 1 at start
  * - line 973 -> 975 commented out for single track split support
  * Add a new function called isVolume() (based off isController())
+ * --Added 2 delte functions
  */
 MidiQTool::MidiQTool(QWidget *parent) :
     QMainWindow(parent),
@@ -27,8 +28,9 @@ MidiQTool::~MidiQTool()
     delete validatorTempo;
     delete validatorIntHalfByte;
     delete validatorInt;
+    delete validatorTime;
 }
-
+//--------------------File Options
 //Open file
 void MidiQTool::on_pushButtonOpenMidi_clicked()
 {
@@ -72,6 +74,9 @@ void MidiQTool::on_pushButtonTrimRest_clicked()
     ui->statusBar->showMessage("Start trimed");
 }
 
+
+//----------------Begin Tempo Note adujust methods
+
 void MidiQTool::on_pushButtonTNUdjust_clicked()
 {
 
@@ -90,8 +95,18 @@ void MidiQTool::on_pushButtonTNUdjust_clicked()
     }
 }
 
+void MidiQTool::on_radioButtonMulti_toggled(bool checked)
+{
+    if(checked)
+        ui->lineEditNTMValue->setValidator(validatorMultiplier);
+    else
+        ui->lineEditNTMValue->setValidator(validatorTempo);
+    ui->lineEditNTMValue->setText("");
+}
+//----------------End Tempo Note adujust methods
 
-//----------Note shifiting
+
+//----------Note pitch shifiting
 void MidiQTool::on_pushButtonOcUp_clicked()
 {
     if(midModifier->AdjustNotePitch(12))
@@ -136,14 +151,8 @@ void MidiQTool::EnableGUI()
         ui->pushButtonT0Split->setEnabled(false);
 }
 
-void MidiQTool::on_radioButtonMulti_toggled(bool checked)
-{
-    if(checked)
-        ui->lineEditNTMValue->setValidator(validatorMultiplier);
-    else
-        ui->lineEditNTMValue->setValidator(validatorTempo);
-    ui->lineEditNTMValue->setText("");
-}
+
+//--SETUP METHODS
 /*!
  * \brief MidiQTool::SetupValidators
  */
@@ -152,11 +161,14 @@ void MidiQTool::SetupValidators()
     //Create
     validatorMultiplier =  new QDoubleValidator(0, 100, 2, this);
     validatorTempo = new QDoubleValidator(0, 512.0, 2, this); //No reason max
-    validatorIntHalfByte =  new QIntValidator(1, 127,this);
-    validatorInt = new QIntValidator(0,INT_MAX,this);
+    validatorIntHalfByte =  new QIntValidator(1, 127,this);  //For note attacks
+    validatorInt = new QIntValidator(0,INT_MAX,this);        //For cut
+    validatorTime = new QDoubleValidator(0,INT_MAX, 2,this); //For cut, dont wanna go higher than a int can handle
+
     //set up format
     validatorMultiplier->setNotation(QDoubleValidator::StandardNotation);
     validatorTempo->setNotation(QDoubleValidator::StandardNotation);
+    validatorTime->setNotation(QDoubleValidator::StandardNotation);
 
     //Setup
     //Note / length
@@ -168,7 +180,7 @@ void MidiQTool::SetupValidators()
     ui->lineEditCutStart->setValidator(validatorInt);
     ui->lineEditCutFin->setValidator(validatorInt);
 }
-
+//--------End setup methods
 
 void MidiQTool::on_pushButtonT0Split_clicked()
 {
@@ -183,9 +195,16 @@ void MidiQTool::on_pushButtonT0Split_clicked()
 void MidiQTool::on_pushButtonCut_clicked()
 {
     QString cutSStart = ui->lineEditCutStart->text();
-    int cutStart = cutSStart.toInt();
     QString cutSEnd = ui->lineEditCutFin->text();
-    int cutEnd = cutSEnd.toInt();
+    int cutStart =0;
+    int cutEnd =0;
+    if(ui->radioButtonCutTicks){
+        cutStart = cutSStart.toInt();
+        cutEnd = cutSEnd.toInt();
+    }else{
+
+    }
+
     if(cutEnd > cutStart || (cutStart && cutEnd == 0)){
         midModifier->CutMidi(cutStart,cutEnd);
         ui->statusBar->showMessage("Midi has been cut");
@@ -194,6 +213,20 @@ void MidiQTool::on_pushButtonCut_clicked()
     }
 
 }
+
+void MidiQTool::on_radioButtonCutTicks_toggled(bool checked)
+{
+    if(checked){
+        ui->lineEditCutStart->setValidator(validatorInt);
+        ui->lineEditCutFin->setValidator(validatorInt);
+    }else{
+        ui->lineEditCutStart->setValidator(validatorTime);
+        ui->lineEditCutFin->setValidator(validatorTime);
+    }
+    ui->lineEditCutStart->setText("");
+    ui->lineEditCutFin->setText("");
+}
+
 
 /*!
  * \brief MidiQTool::on_pushButtonVolumeChan_clicked
@@ -226,3 +259,4 @@ void MidiQTool::on_pushButtonShortNotes_clicked()
    midModifier->RemoveShortNotes(5);
    ui->statusBar->showMessage("Short notes removed");
 }
+
