@@ -198,11 +198,11 @@ void MidiQTool::on_pushButtonCut_clicked()
     QString cutSEnd = ui->lineEditCutFin->text();
     int cutStart =0;
     int cutEnd =0;
-    if(ui->radioButtonCutTicks){
+    if(ui->radioButtonCutTicks->isChecked()){
         cutStart = cutSStart.toInt();
         cutEnd = cutSEnd.toInt();
     }else{
-
+       midModifier->secondsToTick(cutSStart.toDouble(),cutSEnd.toDouble(),cutStart,cutEnd);
     }
 
     if(cutEnd > cutStart || (cutStart && cutEnd == 0)){

@@ -42,7 +42,6 @@ int AdjustMid::trimStart()
                     mid[track][eventNo].tick = 0;
             }
         }
-        cout << "Complete" << endl;
         return(0);
     }
     cout << "File can't be rest trimed." << endl;
@@ -228,4 +227,36 @@ void AdjustMid::removeShortNotes(int length)
         mid[track].removeList(toDelete[track]);
     }
 }
-int AdjustMid::secondsToTick(double &startTime, double &endTime){return 0;}
+void AdjustMid::secondsToTick(double startTime, double endTime, int & startTimeTicks, int & endTimeTicks)
+{
+    vector<double> tempoChanges;
+    vector<int> tempoPositions;
+    for (int track = 0; track < mid.getTrackCount(); track++)
+    {
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
+        {
+            if(mid[track][eventNo].isTempo()){
+                tempoChanges.push_back(mid[track][eventNo].getTempoBPM());
+                tempoPositions.push_back(mid[track][eventNo].tick);
+            }
+        }
+    }
+    if(tempoChanges.size() == 1){
+        startTimeTicks = (int)(tempoChanges[0] *startTime);
+        endTimeTicks = (int)(tempoChanges[0] * endTime);
+        return;
+    }
+    std::sort(tempoChanges.begin(),tempoChanges.end());
+    std::sort(tempoPositions.begin(), tempoPositions.end());
+
+    float tmp = 0;
+
+    for(int i = 0; i < tempoChanges.size(); i++){
+        if(i != (tempoChanges.size() -1)){
+            int tickDif = tempoPositions[i]-tempoPositions[i+1];
+        }else{
+
+        }
+     }
+    return;
+}
