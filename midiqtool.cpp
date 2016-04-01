@@ -264,5 +264,6 @@ void MidiQTool::on_pushButtonShortNotes_clicked()
 
 void MidiQTool::on_pushButtonRepeat_clicked()
 {
-
+    midModifier->repeatMidi();
+    ui->statusBar->showMessage("Mid has been repeated");
 }

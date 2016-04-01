@@ -20,6 +20,7 @@ public:
     void setNoteAttackVolume(int volume);
     void removeShortNotes(int length);
     int getLastTick();
+    void repeatMidi();
     //Varibles
     double firstTempo;
     int highPoint;

@@ -205,13 +205,28 @@ void AdjustMid::removeShortNotes(int length)
         mid[track].removeList(toDelete[track]);
     }
 }
+/*!
+ * \brief AdjustMid::getLastTick
+ * \return
+ */
 int AdjustMid::getLastTick()
 {
     int lastOcc = -1; //No value found
     for (int track = 0; track < mid.getTrackCount(); track++){
-        int lTickTrack = mid[track][mid[track].size()-1].tick;
+        int lTickTrack = mid[track].back().tick;
         if(lTickTrack > lastOcc)
             lastOcc = lTickTrack;
     }
     return lastOcc;
+}
+void AdjustMid::repeatMidi()
+{
+    int lastTick = getLastTick();
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        int lastPos = mid[track].size();// Since we dont wanna loop forever
+        for (int eventNo = 0; eventNo < lastPos; eventNo++){
+            mid[track].push_back(mid[track][eventNo]); //Add to the back
+            mid[track].last().tick += lastTick;        //Adjust it
+        }
+    }
 }
