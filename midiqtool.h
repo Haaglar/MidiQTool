@@ -51,6 +51,8 @@ private slots:
 
     void on_radioButtonCutTicks_toggled(bool checked);
 
+    void on_pushButtonRepeat_clicked();
+
 private:
 
     void EnableGUI();

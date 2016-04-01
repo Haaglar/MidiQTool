@@ -20,10 +20,8 @@ int AdjustMid::trimStart()
 {
     int iTicks = 999999; //random number
     //Find
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if (mid[track][eventNo].isNoteOn()){ //Find first note on for track
                 iTicks = min(mid[track][eventNo].tick, iTicks);
                 break;
@@ -32,10 +30,8 @@ int AdjustMid::trimStart()
     }
     if (iTicks > 0 && iTicks != 999999){
         //iterate over it all
-        for (int track = 0; track < mid.getTrackCount(); track++)
-        {
-            for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-            {
+        for (int track = 0; track < mid.getTrackCount(); track++){
+            for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
                 if (mid[track][eventNo].tick >= iTicks)
                     mid[track][eventNo].tick -= iTicks;
                 else
@@ -50,10 +46,8 @@ int AdjustMid::trimStart()
 
 int AdjustMid::adjustTempoAndNotes(double adjustment)
 {
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             mid[track][eventNo].tick = (int)(mid[track][eventNo].tick * adjustment);
             if (mid[track][eventNo].isTempo())
                 mid[track][eventNo].setTempo(mid[track][eventNo].getTempoBPM() * adjustment);
@@ -68,10 +62,8 @@ int AdjustMid::adjustNotePitch(int amount)
         return 1;
     else if (amount < 0 && (lowPoint + amount) < Constants::MIN_MIDI_PITCH)
         return 1;
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if (mid[track][eventNo].isNote())
                 mid[track][eventNo][1]+= amount;
         }
@@ -81,10 +73,8 @@ int AdjustMid::adjustNotePitch(int amount)
 }
 int AdjustMid::findHighLowPoints()
 {
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if (mid[track][eventNo].isNote()){
                 lowPoint = min(mid[track][eventNo].getKeyNumber(),lowPoint);
                 highPoint = max(mid[track][eventNo].getKeyNumber(),highPoint);
@@ -96,8 +86,7 @@ int AdjustMid::findHighLowPoints()
 
 int AdjustMid::findFirstTempo()
 {
-    for (int eventNo = 0; eventNo < mid[0].size(); eventNo++)
-    {
+    for (int eventNo = 0; eventNo < mid[0].size(); eventNo++){
         if(mid[0][eventNo].isTempo()){
             firstTempo = mid[0][eventNo].getTempoBPM();
             return firstTempo;
@@ -112,10 +101,8 @@ void AdjustMid::cutMidi(int startTick, int endTick)
     mid.linkNotePairs();
     vector<vector<int>> toDelete( mid.getTrackCount());
     //Find the notes to delete
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if(startTick && mid[track][eventNo].tick < startTick ){ //Before the start point
                 if (mid[track][eventNo].isPitchbend()){
                     toDelete[track].push_back(eventNo);
@@ -133,25 +120,24 @@ void AdjustMid::cutMidi(int startTick, int endTick)
                      mid[track][eventNo].tick = startTick; //Adjust it so its at the start of the midi
                     }
                 }
-            }else if (endTick){ //If specified an end tick
-                if(mid[track][eventNo].tick <= endTick){ //Middle Cases
+            }else if (endTick){ //End before the starting point, start if specified an end tick
+                if(mid[track][eventNo].tick <= endTick){ //Middle Cases (inbetween start and end cut point
                     if (mid[track][eventNo].isNoteOn()){
                          MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
                          if(linked->tick > endTick)
                             linked->tick = endTick;
                     }
-                }else{
+                }else{ //Past point of no return
                      toDelete[track].push_back(eventNo);
                 }
             }//End specified endtick block
         }//End event loop-
     }//End track loop
-    for(int track = 0; track < mid.getTrackCount(); track++)
-    {
+    for(int track = 0; track < mid.getTrackCount(); track++){ //Remove everything now
         mid[track].removeList(toDelete[track]);
     }
     AdjustMid::trimStart(); //Shift everything down
-    //Since the midihas changedwe need to check again
+    //Since the midihas changed we need to check again
     AdjustMid::findHighLowPoints();
 
 }
@@ -161,11 +147,9 @@ void AdjustMid::cutMidi(int startTick, int endTick)
  */
 void AdjustMid::removeAdditionalVolume(int volume)
 {
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
+    for (int track = 0; track < mid.getTrackCount(); track++){ //iterate tracks
         int volumeFound = 0;
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if(mid[track][eventNo].isVolume()){
                 if(volumeFound == 0 && mid[track][eventNo][2] !=0){ //Dont want to set to 0
                     volumeFound++;
@@ -185,10 +169,8 @@ void AdjustMid::removeAdditionalVolume(int volume)
  */
 void AdjustMid::setNoteAttackVolume(int volume)
 {
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
             if(mid[track][eventNo].isNote())
                 mid[track][eventNo][2] = (volume & 0xff);
         }
@@ -201,29 +183,35 @@ void AdjustMid::removeShortNotes(int length)
     mid.linkNotePairs();
     vector<vector<int>> toDelete( mid.getTrackCount());
     //Find the notes to delete
-    for (int track = 0; track < mid.getTrackCount(); track++)
-    {
-        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++)
-        {
-            if(mid[track][eventNo].isNoteOn()){
-                MidiEvent * linked = mid[track][eventNo].getLinkedEvent();
-                int eventNoPairEnd = eventNo + 1;
-                while(eventNoPairEnd < mid[track].size())
-                {
-                    if(linked == &mid[track][eventNoPairEnd]){
-                        if((mid[track][eventNoPairEnd].tick - mid[track][eventNo].tick)< length){
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        for (int eventNo = 0; eventNo < mid[track].size(); eventNo++){
+            if(mid[track][eventNo].isNoteOn()){ //Found note on, we need to find corresponing note off
+                MidiEvent * linked = mid[track][eventNo].getLinkedEvent(); //pointer, not index,
+                if((linked->tick - mid[track][eventNo].tick)< length){       //If its short need to find pair index
+                    int eventNoPairEnd = eventNo + 1;
+                    while(eventNoPairEnd < mid[track].size()){ //Find the linked note
+                        if(linked == &mid[track][eventNoPairEnd]){ //pointer the same
                             toDelete[track].push_back(eventNo);
                             toDelete[track].push_back(eventNoPairEnd);
+                            break;
                         }
-                        break;
-                    }
-                    eventNoPairEnd++;
-                }//End pair note find
+                        eventNoPairEnd++;
+                    }//End pair note find
+                }
             }//End note test
         }//End current track
     }//End note find
-    for(int track = 0; track < mid.getTrackCount(); track++)
-    {
+    for(int track = 0; track < mid.getTrackCount(); track++){
         mid[track].removeList(toDelete[track]);
     }
+}
+int AdjustMid::getLastTick()
+{
+    int lastOcc = -1; //No value found
+    for (int track = 0; track < mid.getTrackCount(); track++){
+        int lTickTrack = mid[track][mid[track].size()-1].tick;
+        if(lTickTrack > lastOcc)
+            lastOcc = lTickTrack;
+    }
+    return lastOcc;
 }

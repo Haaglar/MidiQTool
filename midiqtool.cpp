@@ -261,3 +261,8 @@ void MidiQTool::on_pushButtonShortNotes_clicked()
    ui->statusBar->showMessage("Short notes removed");
 }
 
+
+void MidiQTool::on_pushButtonRepeat_clicked()
+{
+
+}
