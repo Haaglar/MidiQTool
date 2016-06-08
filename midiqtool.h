@@ -19,13 +19,8 @@ public:
     ~MidiQTool();
 
 private slots:
-    void on_pushButtonOpenMidi_clicked();
-
-    void on_pushButtonSaveLocation_clicked();
 
     void on_pushButtonTrimRest_clicked();
-
-    void on_pushButtonSave_clicked();
 
     void on_pushButtonTNUdjust_clicked();
 
@@ -57,6 +52,9 @@ private:
 
     void EnableGUI();
     void SetupValidators();
+    void SavedClicked();
+    void SaveMidi();
+    void OpenMidi();
     Ui::MidiQTool *ui;
     QString midiDir;
     QString outDir;

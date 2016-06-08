@@ -17,6 +17,9 @@ MidiQTool::MidiQTool(QWidget *parent) :
 {
     ui->setupUi(this);
     SetupValidators();
+    connect(ui->actionExit, &QAction::triggered,this,QApplication::quit);
+    connect(ui->actionOpen, &QAction::triggered,this,MidiQTool::OpenMidi);
+    connect(ui->actionSave, &QAction::triggered,this, MidiQTool::SavedClicked);
     midModifier = new AdjustMid();
 }
 
@@ -32,7 +35,7 @@ MidiQTool::~MidiQTool()
 }
 //--------------------File Options
 //Open file
-void MidiQTool::on_pushButtonOpenMidi_clicked()
+void MidiQTool::OpenMidi()
 {
     midiDir = QFileDialog::getOpenFileName(this,tr("Open Midi"),"","Midi file (*.mid *.midi)");
     if(midiDir == NULL)
@@ -44,21 +47,19 @@ void MidiQTool::on_pushButtonOpenMidi_clicked()
         ui->statusBar->showMessage("Failed to read midi file.");
     }else{
         EnableGUI();
-        ui->lineEditFile->setText(midiDir);
         outDir= midiDir.left(midiDir.lastIndexOf(".")) + " (modified).mid";
-        ui->lineEditSaveLoc->setText(outDir);
         ui->statusBar->showMessage(QFileInfo(midiDir).fileName() + " opened successfully.");
     }
 }
 //Save file location
-void MidiQTool::on_pushButtonSaveLocation_clicked()
+void MidiQTool::SavedClicked()
 {
     outDir = QFileDialog::getSaveFileName(this,tr("Save Midi"),"","Midi file (*.mid *.midi)");
     if(outDir != NULL)
-        ui->lineEditSaveLoc->setText(outDir);
+        SaveMidi();
 }
 //Save file to location
-void MidiQTool::on_pushButtonSave_clicked()
+void MidiQTool::SaveMidi()
 {
     string outLoc = outDir.toStdString();
     midModifier->mid.write(outLoc);
@@ -145,6 +146,7 @@ void MidiQTool::on_pushButtonDownOne_clicked()
  */
 void MidiQTool::EnableGUI()
 {
+    ui->actionSave->setEnabled(true);
     for(QWidget *items: ui->centralWidget->findChildren<QWidget*>())
         items->setEnabled(true);
     if(midModifier->mid.getNumTracks() != 1)//If not type 0
@@ -155,6 +157,7 @@ void MidiQTool::EnableGUI()
 //--SETUP METHODS
 /*!
  * \brief MidiQTool::SetupValidators
+ * Sets up the validators in the QLineEdits
  */
 void MidiQTool::SetupValidators()
 {
