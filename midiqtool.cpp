@@ -34,7 +34,9 @@ MidiQTool::~MidiQTool()
     delete validatorTime;
 }
 //--------------------File Options
-//Open file
+/*!
+ * \brief MidiQTool::OpenMidi
+ */
 void MidiQTool::OpenMidi()
 {
     midiDir = QFileDialog::getOpenFileName(this,tr("Open Midi"),"","Midi file (*.mid *.midi)");
