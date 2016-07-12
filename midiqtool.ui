@@ -446,28 +446,21 @@ Notes</string>
 Short Notes</string>
       </property>
      </widget>
-     <zorder>pushButtonTNUdjust</zorder>
-     <zorder>groupBoxPitch</zorder>
-     <zorder>groupBox</zorder>
-     <zorder>groupBox_3</zorder>
-     <zorder>pushButtonTrimRest</zorder>
-     <zorder>pushButtonT0Split</zorder>
-     <zorder>pushButtonRepeat</zorder>
-     <zorder>groupBox_2</zorder>
-     <zorder>pushButtonShortNotes</zorder>
-     <zorder>pushButtonT0Split</zorder>
-     <zorder>groupBox</zorder>
-     <zorder>groupBox_3</zorder>
-     <zorder>pushButtonTrimRest</zorder>
-     <zorder>groupBox_2</zorder>
-     <zorder>pushButtonRepeat</zorder>
-     <zorder>groupBoxPitch</zorder>
-     <zorder>pushButtonShortNotes</zorder>
     </widget>
     <widget class="QWidget" name="tabEvents">
      <attribute name="title">
       <string>Midi Events</string>
      </attribute>
+     <widget class="QListView" name="listView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>261</width>
+        <height>271</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
